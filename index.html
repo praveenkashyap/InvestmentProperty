@@ -1,0 +1,224 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.8.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        
+        <p id = "idMainPage">Hello world! This is HTML5 Boilerplate.</p>
+        <table>
+        	<tr>
+        		<th>Property Loan information </th>
+        	</tr>
+        	<tr>
+        		<td>Down Payment (%): </td>
+         		<td><input id="idDownPayment" onchange="propertyLoan.downPayment = document.getElementById('idDownPayment').value;"></td>       		
+        	</tr>
+        	<tr>
+        		<td>Loan Interest Rate (%): </td>
+		        <td><input id="idLoanInterestRate" onchange="propertyLoan.loanInterestRate = document.getElementById('idLoanInterestRate').value;"></td>       		
+        	</tr>
+        	<tr>
+        		<td>Loan Duration (Yr): </td>
+		        <td><input id="idLoanDuration" onchange="propertyLoan.loanDuration = document.getElementById('idLoanDuration').value;"></td>
+        	</tr>
+        </table>
+        
+        	<table>
+          		<tr><th>Property Data </th>
+        			<th>Conservative</th>
+        			<th>Average</th>
+        			<th>Aggresive</th>
+        		</tr>
+         	<tr><th>Property Purchase assumptions</th></tr>
+       		<tr><td>Purchase Price ($):</td>
+        			<td><input id="idPurchasePrice0" onchange="propertyPurchase[0].purchasePrice = document.getElementById('idPurchasePrice0').value;"></td>
+       				<td><input id="idPurchasePrice1" onchange="propertyPurchase[1].purchasePrice = document.getElementById('idPurchasePrice1').value;"></td>
+       				<td><input id="idPurchasePrice2" onchange="propertyPurchase[2].purchasePrice = document.getElementById('idPurchasePrice2').value;"></td>
+         	</tr>
+       		<tr><td>Capital Improvements ($):</td>
+        			<td><input id="idCapitalImprovement0" onchange="propertyPurchase[0].capitalImprovement = document.getElementById('idCapitalImprovement0').value;"></td>
+        			<td><input id="idCapitalImprovement1" onchange="propertyPurchase[1].capitalImprovement = document.getElementById('idCapitalImprovement1').value;"></td>
+        			<td><input id="idCapitalImprovement2" onchange="propertyPurchase[2].capitalImprovement = document.getElementById('idCapitalImprovement2').value;"></td>
+          	</tr>
+        		<tr><td>Closing cost (%):</td>
+        			<td><input id="idClosingCost0" onchange="propertyPurchase[0].closingCost = document.getElementById('idClosingCost0').value;"></td>
+        			<td><input id="idClosingCost1" onchange="propertyPurchase[1].closingCost = document.getElementById('idClosingCost1').value;"></td>
+        			<td><input id="idClosingCost2" onchange="propertyPurchase[2].closingCost = document.getElementById('idClosingCost2').value;"></td>
+          	</tr>
+          	<tr><th>Depreciation</th></tr>
+          	<tr><td>Land portion (%)</td>
+        			<td><input id="idLand0" onchange="depreciation[0].land = document.getElementById('idLand0').value;"></td>
+        			<td><input id="idLand1" onchange="depreciation[1].land = document.getElementById('idLand1').value;"></td>
+        			<td><input id="idLand2" onchange="depreciation[2].land = document.getElementById('idLand2').value;"></td>          		
+          	</tr>
+           	<tr><td>Num of years (Yr) </td>
+        			<td><input id="idYears0" onchange="depreciation[0].years = document.getElementById('idYears0').value;"></td>
+        			<td><input id="idYears1" onchange="depreciation[1].years = document.getElementById('idYears1').value;"></td>
+        			<td><input id="idYears2" onchange="depreciation[2].years = document.getElementById('idYears2').value;"></td>
+			</tr>         	
+         	<tr><th>Rental income</th></tr>
+           	<tr><td>Monthly Rent ($) </td>
+        			<td><input id="idRent0" onchange="rentalIncome[0].rent = document.getElementById('idRent0').value;"></td>
+        			<td><input id="idRent1" onchange="rentalIncome[1].rent = document.getElementById('idRent1').value;"></td>
+        			<td><input id="idRent2" onchange="rentalIncome[2].rent = document.getElementById('idRent2').value;"></td>
+ 			</tr>         	
+         	<tr><th>Global data assuptions</th></tr>
+       		<tr><td>Personal Tax bracket (%):</td>
+        			<td><input id="idPersonalTaxBracket0" onchange="globalData[0].personalTaxBracket = document.getElementById('idPersonalTaxBracket0').value;"></td>
+        			<td><input id="idPersonalTaxBracket1" onchange="globalData[1].personalTaxBracket = document.getElementById('idPersonalTaxBracket1').value;"></td>
+        			<td><input id="idPersonalTaxBracket2" onchange="globalData[2].personalTaxBracket = document.getElementById('idPersonalTaxBracket2').value;"></td>
+        		</tr>
+        		<tr><td>Depreciation Tax Rate (%):</td>
+        			<td><input id="idDepreciationTaxRate0" onchange="globalData[0].depreciationTaxRate = document.getElementById('idDepreciationTaxRate0').value;"></td>
+        			<td><input id="idDepreciationTaxRate1" onchange="globalData[1].depreciationTaxRate = document.getElementById('idDepreciationTaxRate1').value;"></td>
+        			<td><input id="idDepreciationTaxRate2" onchange="globalData[2].depreciationTaxRate = document.getElementById('idDepreciationTaxRate2').value;"></td>
+        		</tr>
+        		<tr><td>Long Term Capital Gain (%):</td>
+        			<td><input id="idLongTermCapitalGain0" onchange="globalData[0].longTermCapitalGain = document.getElementById('idLongTermCapitalGain0').value;"></td>
+        			<td><input id="idLongTermCapitalGain1" onchange="globalData[1].longTermCapitalGain = document.getElementById('idLongTermCapitalGain1').value;"></td>
+        			<td><input id="idLongTermCapitalGain2" onchange="globalData[2].longTermCapitalGain = document.getElementById('idLongTermCapitalGain2').value;"></td>
+        		</tr>
+         	<tr><th>Yearly inflation assuptions</th></tr>
+        		<tr><td>Property Tax (%):</td>
+        			<td><input id="idPropertyTax0" onchange="yearlyChanges[0].propertyTax = document.getElementById('idPropertyTax0').value;"></td>
+        			<td><input id="idPropertyTax1" onchange="yearlyChanges[1].propertyTax = document.getElementById('idPropertyTax1').value;"></td>
+        			<td><input id="idPropertyTax2" onchange="yearlyChanges[2].propertyTax = document.getElementById('idPropertyTax2').value;"></td>
+        		</tr>
+         		<tr><td>Inflation (%):</td>
+        			<td><input id="idInflation0" onchange="yearlyChanges[0].inflation = document.getElementById('idInflation0').value;"></td>
+        			<td><input id="idInflation1" onchange="yearlyChanges[1].inflation = document.getElementById('idInflation1').value;"></td>
+        			<td><input id="idInflation2" onchange="yearlyChanges[2].inflation = document.getElementById('idInflation2').value;"></td>
+        		</tr>
+         		<tr><td>Property Appreciation (%):</td>
+        			<td><input id="idPropertyAppreciation0" onchange="yearlyChanges[0].propertyAppreciation = document.getElementById('idPropertyAppreciation0').value;"></td>
+        			<td><input id="idPropertyAppreciation1" onchange="yearlyChanges[1].propertyAppreciation = document.getElementById('idPropertyAppreciation1').value;"></td>
+        			<td><input id="idPropertyAppreciation2" onchange="yearlyChanges[2].propertyAppreciation = document.getElementById('idPropertyAppreciation2').value;"></td>
+        		</tr>
+         		<tr><td>Rent Appreciation (%):</td>
+        			<td><input id="idRentAppreciation0" onchange="yearlyChanges[0].rentAppreciation = document.getElementById('idRentAppreciation0').value;"></td>
+        			<td><input id="idRentAppreciation1" onchange="yearlyChanges[1].rentAppreciation = document.getElementById('idRentAppreciation1').value;"></td>
+        			<td><input id="idRentAppreciation2" onchange="yearlyChanges[2].rentAppreciation = document.getElementById('idRentAppreciation2').value;"></td>
+        		</tr>
+         		<tr><td>Alternate Investment Return (%):</td>
+        			<td><input id="idAlternateInvestmentReturn0" onchange="yearlyChanges[0].alternateInvestmentReturn = document.getElementById('idAlternateInvestmentReturn0').value;"></td>
+        			<td><input id="idAlternateInvestmentReturn1" onchange="yearlyChanges[1].alternateInvestmentReturn = document.getElementById('idAlternateInvestmentReturn1').value;"></td>
+        			<td><input id="idAlternateInvestmentReturn2" onchange="yearlyChanges[2].alternateInvestmentReturn = document.getElementById('idAlternateInvestmentReturn2').value;"></td>
+        		</tr>
+         	<tr><th>Expense assuptions</th></tr>
+         		<tr><td>Monthly Hoa ($):</td>
+        			<td><input id="idHoa0" onchange="expenses[0].hoa = document.getElementById('idHoa0').value;"></td>
+        			<td><input id="idHoa1" onchange="expenses[1].hoa = document.getElementById('idHoa1').value;"></td>
+        			<td><input id="idHoa2" onchange="expenses[2].hoa = document.getElementById('idHoa2').value;"></td>
+        		</tr>
+         		<tr><td>Insurance (%) of Home value:</td>
+        			<td><input id="idInsurance0" onchange="expenses[0].insurance = document.getElementById('idInsurance0').value;"></td>
+         			<td><input id="idInsurance1" onchange="expenses[1].insurance = document.getElementById('idInsurance1').value;"></td>
+         			<td><input id="idInsurance2" onchange="expenses[2].insurance = document.getElementById('idInsurance2').value;"></td>
+        		</tr>
+         		<tr><td>Property, Mello Roos Tax (%) of Home value:</td>
+        			<td><input id="idPropertyMrTax0" onchange="expenses[0].propertyMrTax = document.getElementById('idPropertyMrTax0').value;"></td>
+        			<td><input id="idPropertyMrTax1" onchange="expenses[1].propertyMrTax = document.getElementById('idPropertyMrTax1').value;"></td>
+        			<td><input id="idPropertyMrTax2" onchange="expenses[2].propertyMrTax = document.getElementById('idPropertyMrTax2').value;"></td>
+        		</tr>
+         		<tr><td>Property Management (%) of Rent:</td>
+        			<td><input id="idManagementFee0" onchange="expenses[0].managementFee = document.getElementById('idManagementFee0').value;"></td>
+        			<td><input id="idManagementFee1" onchange="expenses[1].managementFee = document.getElementById('idManagementFee1').value;"></td>
+        			<td><input id="idManagementFee2" onchange="expenses[2].managementFee = document.getElementById('idManagementFee2').value;"></td>
+        		</tr>
+         		<tr><td>Maintenance Fee (%) of Home value:</td>
+        			<td><input id="idMaintenance0" onchange="expenses[0].maintenance = document.getElementById('idMaintenance0').value;"></td>
+        			<td><input id="idMaintenance1" onchange="expenses[1].maintenance = document.getElementById('idMaintenance1').value;"></td>
+        			<td><input id="idMaintenance2" onchange="expenses[2].maintenance = document.getElementById('idMaintenance2').value;"></td>
+        		</tr>
+         		<tr><td>Miscellaneous (%) of Home value:</td>
+        			<td><input id="idMiscellaneous0" onchange="expenses[0].miscellaneous = document.getElementById('idMiscellaneous0').value;"></td>
+        			<td><input id="idMiscellaneous1" onchange="expenses[1].miscellaneous = document.getElementById('idMiscellaneous1').value;"></td>
+        			<td><input id="idMiscellaneous2" onchange="expenses[2].miscellaneous = document.getElementById('idMiscellaneous2').value;"></td>
+        		</tr>
+         		<tr><td>Vacancy (%) of Rent:</td>
+        			<td><input id="idVacancy0" onchange="expenses[0].vacancy = document.getElementById('idVacancy0').value;"></td>
+       				<td><input id="idVacancy1" onchange="expenses[1].vacancy = document.getElementById('idVacancy1').value;"></td>
+       				<td><input id="idVacancy2" onchange="expenses[2].vacancy = document.getElementById('idVacancy2').value;"></td>
+        		</tr>
+         	<tr><th>Property Sale assumptions</th></tr>
+       		<tr><td>Sell after (Yrs):</td>
+        			<td><input id="idSellAfter0" onchange="sale[0].years = document.getElementById('idSellAfter0').value;"></td>
+        			<td><input id="idSellAfter1" onchange="sale[1].years = document.getElementById('idSellAfter1').value;"></td>
+        			<td><input id="idSellAfter2" onchange="sale[2].years = document.getElementById('idSellAfter2').value;"></td>
+         	</tr>
+       		<tr><td>Sale commission (%):</td>
+        			<td><input id="idCommission0" onchange="sale[0].commission = document.getElementById('idCommission0').value;"></td>
+        			<td><input id="idCommission1" onchange="sale[1].commission = document.getElementById('idCommission1').value;"></td>
+        			<td><input id="idCommission2" onchange="sale[2].commission = document.getElementById('idCommission2').value;"></td>
+          	</tr>
+          	</table>
+        	<form action="">
+				<input type="radio" name="idScenario" value="0" onclick="updateScenarioSelection('0');">Conservative
+				<input type="radio" name="idScenario" value="1" onclick="updateScenarioSelection('1');" checked>Average				
+				<input type="radio" name="idScenario" value="2" onclick="updateScenarioSelection('2');">Aggresive
+			</form>
+			<form>
+				<input type="button" onclick="calculate(savedObjects, propertyLoan, propertyPurchase, depreciation, rentalIncome, globalData, yearlyChanges, expenses, sale);" value="Calculate">
+				<input type="button" onclick="printData();" value="Print Data">
+				<input type="button" onclick="localStorage.clear();" value="Clear Storage"><br>
+			</form>
+		<p id = "idPrintData"> The data is printed here: </p>	
+        	
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>');</script>
+        <script src="js/plugins.js"></script>
+
+        <script  type="text/javascript">
+        var scenario = 3;
+        var numSavedObjects = 8;
+		var selectedScenario = 1; //Average is the default value for Scenario
+		var savedObjects = [numSavedObjects];
+        var propertyLoan; 
+        var propertyPurchase = [scenario];
+        var depreciation = [scenario];
+        var rentalIncome = [scenario];
+        var globalData   = [scenario];
+		var yearlyChanges = [scenario];
+		var expenses = [scenario];
+		var sale = [scenario];
+
+
+//        document.write("testing");
+//			document.getElementById("idMainPage").innerHTML = "first: ";					
+//			document.getElementById("idMainPage").innerHTML = "first: " + globalData[0].personalTaxBracket;
+			document.getElementById("idPrintData").innerHTML = "test";
+//			document.getElementById("idPrintData").innerHTML = printData();
+//			document.getElementById("idPrintData").innerHTML = printData(globalData, yearlyChanges, expenses);
+        </script>
+        
+        <script src="js/readData.js" type="text/javascript"></script>  
+        <script src="js/calculate.js" type="text/javascript"></script>  
+        <script src="js/main.js" type="text/javascript"></script>   
+
+             
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+/*            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');*/
+        </script>
+    </body>
+</html>
