@@ -14,30 +14,39 @@
         <script src="js/vendor/modernizr-2.8.0.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 8]>
+       <!--[if lt IE 8]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
         <!-- Add your site or application content here -->
         
+		<div id="Tabs">
+		<ul>
+			<li id="li_tab1" onclick="tab('tab1')" ><a>Input Data</a></li>
+			<li id="li_tab2" onclick="tab('tab2')" ><a>Result</a></li>
+			<li id="li_tab3" onclick="tab('tab3')" ><a>Graph</a></li>
+		</ul>
+		<div id="Content_Area">
+		<div id="tab1">
+
         <p id = "idMainPage">Hello world! This is HTML5 Boilerplate.</p>
-        <table>
-        	<tr>
-        		<th>Property Loan information </th>
-        	</tr>
-        	<tr>
-        		<td>Down Payment (%): </td>
-         		<td><input id="idDownPayment" onchange="propertyLoan.downPayment = document.getElementById('idDownPayment').value;"></td>       		
-        	</tr>
-        	<tr>
-        		<td>Loan Interest Rate (%): </td>
-		        <td><input id="idLoanInterestRate" onchange="propertyLoan.loanInterestRate = document.getElementById('idLoanInterestRate').value;"></td>       		
-        	</tr>
-        	<tr>
-        		<td>Loan Duration (Yr): </td>
-		        <td><input id="idLoanDuration" onchange="propertyLoan.loanDuration = document.getElementById('idLoanDuration').value;"></td>
-        	</tr>
-        </table>
+	        <table>
+	        	<tr>
+	        		<th>Property Loan information </th>
+	        	</tr>
+	        	<tr>
+	        		<td>Down Payment (%): </td>
+	         		<td><input id="idDownPayment" onchange="propertyLoan.downPayment = document.getElementById('idDownPayment').value;"></td>       		
+	        	</tr>
+	        	<tr>
+	        		<td>Loan Interest Rate (%): </td>
+			        <td><input id="idLoanInterestRate" onchange="propertyLoan.loanInterestRate = document.getElementById('idLoanInterestRate').value;"></td>       		
+	        	</tr>
+	        	<tr>
+	        		<td>Loan Duration (Yr): </td>
+			        <td><input id="idLoanDuration" onchange="propertyLoan.loanDuration = document.getElementById('idLoanDuration').value;"></td>
+	        	</tr>
+	        </table>
         
         	<table>
           		<tr><th>Property Data </th>
@@ -178,7 +187,17 @@
 				<input type="button" onclick="printData();" value="Print Data">
 				<input type="button" onclick="localStorage.clear();" value="Clear Storage"><br>
 			</form>
-		<p id = "idPrintData"> The data is printed here: </p>	
+		</div>
+			<div id="tab2" style="display: none;"> <!-- We set its display as none because we don’t want to make this
+					tab visible by default. The only visible/active tab should be Tab 1 until the visitor clicks on Tab 2. -->
+			<p id = "idPrintData"> The data is printed here: </p>	
+		</div>
+			<div id="tab3" style="display: none;"> <!-- We set its display as none because we don’t want to make this
+				tab visible by default. The only visible/active tab should be Tab 1 until the visitor clicks on Tab 3. -->
+			<p id = "idGraph"> The graph is shown here: </p>	
+		</div>
+		</div> <!-- End of Content_Area Div -->
+		</div> <!-- End of Tabs Div -->
         	
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>');</script>
@@ -205,6 +224,7 @@
 			document.getElementById("idPrintData").innerHTML = "test";
 //			document.getElementById("idPrintData").innerHTML = printData();
 //			document.getElementById("idPrintData").innerHTML = printData(globalData, yearlyChanges, expenses);
+
         </script>
         
         <script src="js/readData.js" type="text/javascript"></script>  
