@@ -1,17 +1,6 @@
 /**
  * @author Praveen
  */
-//To display the three tabs and hide them when focus is removed
-function tab(tab) {
-	document.getElementById('tab1').style.display = 'none';
-	document.getElementById('tab2').style.display = 'none';
-	document.getElementById('tab3').style.display = 'none';
-	document.getElementById('li_tab1').setAttribute("class", "");
-	document.getElementById('li_tab2').setAttribute("class", "");
-	document.getElementById('li_tab3').setAttribute("class", "");
-	document.getElementById(tab).style.display = 'block';
-	document.getElementById('li_'+tab).setAttribute("class", "active");
-}
 
 /*function printData(globalData, yearlyChanges, expenses){
 	var str = "local Storage: " + localStorage.length;
@@ -57,6 +46,8 @@ function printData(){
 	}		
 	str = str + "</table>";
 	document.getElementById("idPrintData").innerHTML = str  ;
+	drawIncome(propertyValue);
+	drawAppreciation(propertyValue);
 }
 
 function calculate(savedObjects, propertyLoan, propertyPurchase, depreciation, rentalIncome, globalData, yearlyChanges, expenses, sale){

@@ -25,11 +25,10 @@
 			<li id="li_tab1" onclick="tab('tab1')" ><a>Input Data</a></li>
 			<li id="li_tab2" onclick="tab('tab2')" ><a>Result</a></li>
 			<li id="li_tab3" onclick="tab('tab3')" ><a>Graph</a></li>
+			<li id="li_tab4" onclick="tab('tab4')" ><a>Test Data</a></li>
 		</ul>
 		<div id="Content_Area">
 		<div id="tab1">
-
-        <p id = "idMainPage">Hello world! This is HTML5 Boilerplate.</p>
 	        <table>
 	        	<tr>
 	        		<th>Property Loan information </th>
@@ -194,8 +193,20 @@
 		</div>
 			<div id="tab3" style="display: none;"> <!-- We set its display as none because we don’t want to make this
 				tab visible by default. The only visible/active tab should be Tab 1 until the visitor clicks on Tab 3. -->
-			<p id = "idGraph"> The graph is shown here: </p>	
+			<h2 id = "idGraph"> Income, expenses and cash flow: </h2>	
+			<p> Graph <canvas id="idIncomeGraph" width="800" height="400" style="border:2px solid #d3d3d3;"> 
+			Your browser does not support the HTML5 canvas tag.
+			</canvas> </p>
+			<h2> Appreciation Graph </h2>
+			<p> Graph <canvas id="idAppreciationGraph" width="800" height="800" style="border:1px solid #000000;"> 
+			Your browser does not support the HTML5 canvas tag.
+			</canvas> </p>
 		</div>
+			<div id="tab4" style="display: none;"> <!-- We set its display as none because we don’t want to make this
+					tab visible by default. The only visible/active tab should be Tab 1 until the visitor clicks on Tab 2. -->
+			<p id = "idTestData"> The test data is printed here: </p>	
+		</div>
+
 		</div> <!-- End of Content_Area Div -->
 		</div> <!-- End of Tabs Div -->
         	
@@ -220,16 +231,15 @@
 
 //        document.write("testing");
 //			document.getElementById("idMainPage").innerHTML = "first: ";					
-//			document.getElementById("idMainPage").innerHTML = "first: " + globalData[0].personalTaxBracket;
-			document.getElementById("idPrintData").innerHTML = "test";
-//			document.getElementById("idPrintData").innerHTML = printData();
-//			document.getElementById("idPrintData").innerHTML = printData(globalData, yearlyChanges, expenses);
+//			document.getElementById("idPrintData").innerHTML = "test";
 
         </script>
         
+        <script src="js/util.js" type="text/javascript"></script>  
         <script src="js/readData.js" type="text/javascript"></script>  
         <script src="js/calculate.js" type="text/javascript"></script>  
         <script src="js/main.js" type="text/javascript"></script>   
+        <script src="js/graph.js" type="text/javascript"></script>  
 
              
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
