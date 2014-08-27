@@ -1,7 +1,7 @@
 /**
  * @author Praveen
  */
-
+//Call the constructor on all property objects. 
 (function(){
 	propertyLoan = new PropertyLoan(25.0, 4.5, 30);
 	
@@ -114,25 +114,9 @@ function assignSavedObjects(numSavedObjects, savedObjects)
 }
 	
 
-//Save all input data after it is entered
-function saveData(savedObjects, propertyLoan, propertyPurchase, depreciation, rentalIncome, globalData, yearlyChanges, expenses, sale){
-	var str = Array(savedObjects.length);
-	
-	for(var i = 0; i < savedObjects.length; i++){
-		str[i] = JSON.stringify(arguments[i + 1]);
-	}
-
-	if (window.localStorage) {  // Only do this if the browser supports it
-    	for(var i = 0; i < savedObjects.length; i++){
-    		localStorage[savedObjects[i]] = str[i];
-    	}
-    }
-}
-
-// Automatically attempt to restore input fields when the document first loads.
-window.onload = function() {
-	
-    // If the browser supports localStorage and we have some stored data
+// Automatically attempt to restore input fields when the document first loads. The order in which this data is shown ??
+window.onload = function() {	
+    // If the browser supports localStorage and we have some stored data. Do this for all (8) property objects
     if (window.localStorage && localStorage.propertyLoan) {  
     	propertyLoan = JSON.parse(localStorage.propertyLoan);
         document.getElementById("idDownPayment").value = propertyLoan.downPayment;
@@ -198,6 +182,5 @@ window.onload = function() {
      		document.getElementById("idCommission" + i).value = sale[i].commission;
      	}
      }	
-
-};
+};//window.onLoad
 
