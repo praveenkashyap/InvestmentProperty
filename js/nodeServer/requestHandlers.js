@@ -2,6 +2,7 @@
  * @author Praveen
  */
 var exec = require("child_process").exec;
+var spawn = require("child_process").spawn;
 var querystring = require("querystring");
 //var formidable = require("formidable");
 var os = require("os"); 
@@ -59,37 +60,88 @@ function show(response) {
 
 function file(response){
 	console.log("Request handler 'file' was called.");
-		
-	var body = '<html>'+ '<head>'+ '<meta http-equiv="Content-Type" content="text/html; '+ 'charset=UTF-8" />'+
-	'</head>'+ '<body>'+ 
-	'<p> For rental property analysis, input the address and city </p>' + 
-	'<form name = "Property Address" action="/fileCreate" method="post">'+
-		'Street address: <input type="text" name ="StreetAddress">'+
-		'City: <input type="text" name ="City">'+
-		'State: <input type="text" name ="State">'+
-		'<input type="submit" value="Submit address" /> <br>'+
-	'</form>'+ 
-	'<p> To create a template, enter state or neighborhood </p>' +
-	'<form name = "Neighborhood" action="/fileCreate" method="post">'+
-		'Neighborhood: <input type="text" name ="Neighborhood">'+
-		'<input type="submit" value="Submit Neighborhood" />'+
-	'</form>'+ 
-	'<form name = "State" action="/fileCreate" method="post">'+
-		'State: <input type="text" name ="State">'+
-		'<input type="submit" value="Submit State" />'+
-	'</form>'+ 
-	'</body>'+ '</html>';
-	response.writeHead(200, {"Content-Type": "text/html"});
-	response.write(body);
-	response.end();
+	var winPropertyDatabase = "..\\..\\..\\PropertyDatabase";
+	var linuxPropertyDatabase = "../../../PropertyDatabase";
+	var fileArray;
 
+	console.log("OS type:" + os.type());
+	console.log("OS platoform:" + os.platform());
+	if (os.platform() === "win32"){	
+/*
+		exec("dir " + winPropertyDatabase + " /a-d /b /on", function (error, fileName, stderr) {
+  		    console.log("cmd:" + "dir " + winPropertyDatabase + " /a-d /b /on" );
+		    console.log("stdout:" + fileName);
+		    console.log("type:" + typeof fileName);
+		    console.log("error:" + stderr);
+		    if (error !== null) {
+		        console.log('exec error: ' + error);
+		    };		    
+		});
+*/
+	}//win32
+
+	if (os.platform() === "linux"){	
+	    var ls = spawn('ls', [linuxPropertyDatabase]);
+		    ls.stdout.on('data', function (data) {
+		    	console.log('stdout: ' + data + " type:" + typeof data);
+		    	//Create an array of the files in the database
+		    	fileArray = data.toString().split("\n");
+/*
+		    	console.log("File Array1:");
+				for(var i = 0; i < fileArray.length; i++)
+					console.log(fileArray[i]);
+*/
+				var body = '<!DOCTYPE html> <html>'+ '<head>'+ '<meta http-equiv="Content-Type" content="text/html; '+ 'charset=UTF-8" />'+
+				'</head>'+ '<body>'+ 
+				'<p> Existing Property addresses </p>' + 
+				'<form name = "File" action="/fileCreate" method="post">' +
+				'<select name = "optionList" id = "optionList">' + 
+				'<option value = "" selected> </option>';
+				for(var i = 0; i < fileArray.length - 1; i++)
+					body = body + '<option value="' + fileArray[i] + '">' + fileArray[i] + '</option> ' ;
+				body = body + '</select> <input type="submit" value="Submit File" />' ;
+				'</form> <br>';
+
+				// Create form for entering address information. Show it only if a New property is created. There are three options, property address, neighborhood or state.
+				body = body + '<div id = "AddressDiv"> <p> If property is not in the database, add its address or create a template</p>' + 
+				'<form name = "Property Address" action="/fileCreate" method="post">'+
+					'Street address: <input type="text" name ="StreetAddress">'+
+					'City: <input type="text" name ="City">'+
+					'State: <input type="text" name ="State">'+
+					'<input type="submit" value="Submit address" /> <br>'+
+				'</form>'+ 
+				'<p> To create a template, enter state or neighborhood </p>' +
+				'<form name = "Neighborhood" action="/fileCreate" method="post">'+
+					'Neighborhood: <input type="text" name ="TempNeighborhood">'+
+					'<input type="submit" value="Submit Neighborhood" />'+
+				'</form>'+ 
+				'<form name = "State" action="/fileCreate" method="post">'+
+					'State: <input type="text" name ="TempState">'+
+					'<input type="submit" value="Submit State" />'+
+				'</form> </div>' + 
+				'</body> </html>';
+				
+				response.writeHead(200, {"Content-Type": "text/html"});
+				response.write(body);
+				response.end();
+
+		    });
+
+		    ls.stderr.on('data', function (data) {
+		      console.log('stderr: ' + data);
+		    });
+
+		    ls.on('close', function (code) {
+		      console.log('child process exited with code ' + code);
+		    });
+	} //linux
 } //function file
 
 function fileCreate(response, postData){
-	console.log("Request handler 'fileCreate' was called.");
+	var propertyDatabase = "../../../PropertyDatabase/";
+	var options = {cwd: "/home/praveen/Aptana/PropertyDatabase"};
 	
-	console.log("OS type:" + os.type());
-	console.log("OS platoform:" + os.platform());
+	console.log("Request handler 'fileCreate' was called.");
 	if (os.platform() === "win32"){	
 		exec("dir", function (error, stdout, stderr) {
 			response.writeHead(200, {"Content-Type": "text/plain"});
@@ -105,28 +157,26 @@ function fileCreate(response, postData){
 			var value = query[x].trim();
 			while(value.indexOf(" ") != -1)
 				value = value.replace(" ", "");
-			console.log("key:" + value);
+			console.log("key:" + x + " value:" + value);
 			fileName = fileName + value;
 		}
 		console.log("post Data:" + postData + " query:" + query + " fileName:" + fileName);
 		
-		fs.open("./" + fileName, "a+", function(err, fd){
+		fs.open(propertyDatabase + fileName, "a+", function(err, fd){
 			  if (err) throw err;
-			  console.log('successfully created file: ' + postData);
+			  console.log('successfully created file: ' + fileName);
 			  fs.close(fd);
 		});
-		exec("ls -la", function (error, stdout, stderr) {
-			response.writeHead(200, {"Content-Type": "text/plain"});
-			response.write(stdout);
-			response.write(stderr);
-			response.end();
-		    if (error !== null) {
-		        console.log('exec error: ' + error);
-		    };
+		fs.readFile(propertyDatabase + fileName, function(err, data){
+			  if (err) throw err;
+			  console.log('File: ' + fileName + ' is:' + data);
+			  response.writeHead(200, {"Content-Type": "text/plain"});
+			  response.write(data);
+			  response.end();
 		});
 	} //linux
 
-} //function file
+} //fileCreate
 
 function ajaxRequest(response){
 	console.log("Request handler 'ajaxRequest' was called.");
