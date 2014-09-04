@@ -61,7 +61,7 @@ function show(response) {
 function file(response){
 	console.log("Request handler 'file' was called.");
 	var winPropertyDatabase = "..\\..\\..\\PropertyDatabase";
-	var linuxPropertyDatabase = "../../../PropertyDatabase";
+	var linuxPropertyDatabase = "/home/praveen/Aptana/PropertyDatabase";
 	var fileArray;
 
 	console.log("OS type:" + os.type());
@@ -138,8 +138,10 @@ function file(response){
 } //function file
 
 function fileCreate(response, postData){
-	var propertyDatabase = "../../../PropertyDatabase/";
+	var propertyDatabase = "/home/praveen/Aptana/PropertyDatabase/";
 	var options = {cwd: "/home/praveen/Aptana/PropertyDatabase"};
+	var code = "/home/praveen/Aptana/InvestmentProperty/index.html";
+//Need to fix these fixed paths....
 	
 	console.log("Request handler 'fileCreate' was called.");
 	if (os.platform() === "win32"){	
@@ -167,6 +169,15 @@ function fileCreate(response, postData){
 			  console.log('successfully created file: ' + fileName);
 			  fs.close(fd);
 		});
+		fs.readFile(code, function(err, data){
+			  if (err) throw err;
+			  console.log('Sending file:' + code);
+			  response.writeHead(200, {"Content-Type": "text/html"});
+			  response.write(data);
+			  response.end();
+		});
+
+		/*
 		fs.readFile(propertyDatabase + fileName, function(err, data){
 			  if (err) throw err;
 			  console.log('File: ' + fileName + ' is:' + data);
@@ -174,6 +185,8 @@ function fileCreate(response, postData){
 			  response.write(data);
 			  response.end();
 		});
+*/
+		
 	} //linux
 
 } //fileCreate
