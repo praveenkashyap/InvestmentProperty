@@ -28,7 +28,7 @@ function drawGraph(amount, graph, monthToX, amountToY, drawAxis, lineColor, line
     g.fillText(text, textX, textY);  					// Draw text in legend
 
     // Make yearly tick marks and year numbers on X axis
-    if(drawAxis == true){
+    if(drawAxis === true){
 	    g.textAlign="center";                          // Center text over ticks
 	    g.fillStyle = "black";
 	    var y = graph.height;                          // Y coordinate of X axis
@@ -36,7 +36,7 @@ function drawGraph(amount, graph, monthToX, amountToY, drawAxis, lineColor, line
 	        var x = monthToX(year * 12);               // Compute tick position
 	        g.fillRect(x - 1, y - 3, 1, y);                 // Draw the tick
 //	        if (year == 1) g.fillText("Year", x, y-5); // Label the axis
-	        if (year % 5 == 0 && year*12 !== numMon) // Number every 5 years
+	        if (year % 5 === 0 && year*12 !== numMon) // Number every 5 years
 	            g.fillText(String(year), x, y-5);
 	    }
     }
@@ -57,7 +57,7 @@ function drawIncome(pV){
 	var numMon = pV.grossIncome.length;
 	var lowHigh = [pV.grossIncome[0], pV.grossIncome[numMon - 1], pV.operatingExpense[0], pV.operatingExpense[numMon - 1], pV.netIncomeAfterTD[0], pV.netIncomeAfterTD[numMon - 1], 
 		pV.taxes[0], pV.taxes[numMon - 1]];
-	lowHigh.sort(function(a, b) {return (a - b)});
+	lowHigh.sort(function(a, b) {return (a - b);});
 	var incomeGraph = document.getElementById("idIncomeGraph"); 	// Get the <canvas> tag
 	incomeGraph.width = incomeGraph.width;  						// Magic to clear and reset the canvas element
 
@@ -73,14 +73,14 @@ function drawIncome(pV){
 	str = drawGraph(pV.taxes, incomeGraph, monthToX, amountToY, false, "#00f8f8", 2, "bold 16px sans-serif", "#00f8f8", "Taxes", 20, 68, str);
 	str = drawGraph(pV.cashFlow, incomeGraph, monthToX, amountToY, false, "#8800ff", 2, "bold 16px sans-serif", "#8800ff", "Cash Flow", 20, 84, str);
 	
-	document.getElementById("idTestData").innerHTML = str  ;
+	document.getElementById("idTab4Test").innerHTML = str  ;
 } //drawIncome
 
 //Draw the appreciation related information graph
 function drawAppreciation(pV){
 	var numMon = pV.propertyAppreciation.length;
 	var lowHigh = [pV.propertyAppreciation[0], pV.propertyAppreciation[numMon - 1], pV.alternateInvestment[0], pV.alternateInvestment[numMon - 1]];
-	lowHigh.sort(function(a, b) {return (a - b)});
+	lowHigh.sort(function(a, b) {return (a - b);});
 	var appreciationGraph = document.getElementById("idAppreciationGraph"); 	// Get the <canvas> tag
 	appreciationGraph.width = appreciationGraph.width;  						// Magic to clear and reset the canvas element
 
@@ -93,5 +93,5 @@ function drawAppreciation(pV){
 	str = drawGraph(pV.propertyAppreciation, appreciationGraph, monthToX, amountToY, true,  "#f88f00", 2, "bold 16px sans-serif", "#f88f00", "Property Appreciation", 20, 20, str);
 	str = drawGraph(pV.alternateInvestment, appreciationGraph, monthToX, amountToY, false,  "#f8008f", 2, "bold 16px sans-serif", "#f8008f", "Alternate Investment Appreciation", 20, 36, str);
 	
-	document.getElementById("idTestData").innerHTML = str  ;
+	document.getElementById("idTab4Test").innerHTML = str  ;
 }//drawAppreciation

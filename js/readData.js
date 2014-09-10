@@ -3,8 +3,18 @@
  */
 //Call the constructor on all property objects. 
 (function(){
-	propertyLoan = new PropertyLoan(25.0, 4.5, 30);
+	var propertyAddress = new PropertyAddress("", "", "", "");
 	
+	var propertyLoan = new PropertyLoan(25.0, 4.5, 30);
+
+	var propertyPurchase = [scenario];
+	var depreciation = [scenario];
+	var rentalIncome = [scenario];
+	var globalData   = [scenario];
+	var yearlyChanges = [scenario];
+	var expenses = [scenario];
+	var sale = [scenario];
+
 	propertyPurchase[0] = new PropertyPurchase(415000, 500, 0.4);
 	propertyPurchase[1] = new PropertyPurchase(415000, 500, 0.4);
 	propertyPurchase[2] = new PropertyPurchase(415000, 500, 0.4);
@@ -30,11 +40,28 @@
 	expenses[2] = new Expenses(300, 0.05, 1.85, 6.0, 0.1, 0.1, 5.0);
 	
 	sale[0] = new Sale(10, 5);
-	sale[1]	= new Sale(15, 4.5);
+	sale[1]	= new Sale(15, 1.5);
 	sale[2] = new Sale(30, 4);
 	
-	assignSavedObjects(numSavedObjects, savedObjects);
+	propInfo.propertyAddress = propertyAddress;
+	propInfo.propertyLoan = propertyLoan;
+	propInfo.propertyPurchase = propertyPurchase;
+	propInfo.depreciation = depreciation;
+	propInfo.rentalIncome = rentalIncome;
+	propInfo.globalData = globalData;
+	propInfo.yearlyChanges = yearlyChanges;
+	propInfo.expenses = expenses;
+	propInfo.sale = sale;
+	
+//	assignSavedObjects(numSavedObjects, savedObjects);
 })();
+
+function PropertyAddress(street, city, state, fileName){
+	this.street = street;
+	this.city = city;
+	this.state = state;
+	this.fileName = fileName;
+}
 
 function PropertyLoan(downPayment, loanInterestRate, loanDuration){
 	this.downPayment = downPayment;
@@ -86,37 +113,104 @@ function Sale(years, commission){
 	this.commission = commission;
 }
 
-function updateGlobalData(globalData){
-//	document.getElementById("idMainPage").innerHTML = "first: 1 ";
-	document.getElementById("idMainPage").innerHTML = "first: 12" + globalData[0].personalTaxBracket + " next:" + globalData[1].personalTaxBracket;
-//	document.getElementById("idMainPage").innerHTML = "first: " + globalData[0].personalTaxBracket + " sec: " + globalData[0].depreciationTaxRate + " thi: " + globalData[0].longTermCapitalGain;
+//Read stored data from a file on the server
+function readPropertyData(fileName){
+	var xmlhttp;
 
-}
-function updateScenarioSelection(scenario){
-	document.getElementById("idMainPage").innerHTML = scenario;
-	selectedScenario = scenario;
-}
+	if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();}
+	else{// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");}
+
+	//Read file from the server. The URL is /propertyFileRead and query key is fileName with value as the name of the file. 
+	//restore the read data to the html page
+ 	xmlhttp.onreadystatechange = function(){
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			propInfo = JSON.parse(xmlhttp.responseText);
+			restoreData(propInfo);
+		}};
+	xmlhttp.open("GET", "/propertyFileRead?fileName=" + fileName, true);
+	xmlhttp.send();
+ 	
+}//readPropertyData
 
 
-
-function assignSavedObjects(numSavedObjects, savedObjects)
-{
-	var i = 0;
-	savedObjects[i++] = "propertyLoan";
-	savedObjects[i++] = "propertyPurchase";
-	savedObjects[i++] = "depreciation";
-	savedObjects[i++] = "rentalIncome";
-	savedObjects[i++] = "globalData";
-	savedObjects[i++] = "yearlyChanges";
-	savedObjects[i++] = "expenses";
-	savedObjects[i++] = "sale";
-	if (i != numSavedObjects) throw new Error("Incorrect number of saved objects");
-}
+//Restore input data on the table from data stored locally in data structure.
+function restoreData(propInfo) {	
+	var i, str = "";
 	
+	//Add prop address info
+	document.getElementById("idPropertyAddressStreet").value = propInfo.propertyAddress.street;
+	document.getElementById("idPropertyAddressCity").value = propInfo.propertyAddress.city;
+	document.getElementById("idPropertyAddressState").value = propInfo.propertyAddress.state;
+	
+    document.getElementById("idDownPayment").value = propInfo.propertyLoan.downPayment;
+    document.getElementById("idLoanInterestRate").value = propInfo.propertyLoan.loanInterestRate;
+    document.getElementById("idLoanDuration").value = propInfo.propertyLoan.loanDuration;
+    
+	for(i = 0; i < 3; i++){
+		document.getElementById("idPurchasePrice" + i).value = propInfo.propertyPurchase[i].purchasePrice;
+		document.getElementById("idCapitalImprovement" + i).value = propInfo.propertyPurchase[i].capitalImprovement;
+		document.getElementById("idClosingCost" + i).value = propInfo.propertyPurchase[i].closingCost;
+		}
+
+	for(i = 0; i < 3; i++){
+ 		document.getElementById("idLand" + i).value = propInfo.depreciation[i].land;
+		document.getElementById("idYears" + i).value = propInfo.depreciation[i].years; 
+		}  	
+
+	for(i = 0; i < 3; i++){
+ 		document.getElementById("idRent" + i).value = propInfo.rentalIncome[i].rent;
+ 	}
+
+	for(i = 0; i < 3; i++){
+ 		document.getElementById("idPersonalTaxBracket" + i).value = propInfo.globalData[i].personalTaxBracket;
+		document.getElementById("idDepreciationTaxRate" + i).value = propInfo.globalData[i].depreciationTaxRate;
+ 		document.getElementById("idLongTermCapitalGain" + i).value = propInfo.globalData[i].longTermCapitalGain;
+ 	}
+
+   	for(i = 0; i < 3; i++){
+ 		document.getElementById("idPropertyTax" + i).value = propInfo.yearlyChanges[i].propertyTax;
+		document.getElementById("idInflation" + i).value = propInfo.yearlyChanges[i].inflation;
+ 		document.getElementById("idPropertyAppreciation" + i).value = propInfo.yearlyChanges[i].propertyAppreciation;
+		document.getElementById("idRentAppreciation" + i).value = propInfo.yearlyChanges[i].rentAppreciation;
+ 		document.getElementById("idAlternateInvestmentReturn" + i).value = propInfo.yearlyChanges[i].alternateInvestmentReturn;
+ 	}
+
+	for(i = 0; i < 3; i++){
+ 		document.getElementById("idHoa" + i).value = propInfo.expenses[i].hoa;
+ 		document.getElementById("idInsurance" + i).value = propInfo.expenses[i].insurance;
+ 		document.getElementById("idPropertyMrTax" + i).value = propInfo.expenses[i].propertyMrTax;
+ 		document.getElementById("idManagementFee" + i).value = propInfo.expenses[i].managementFee;
+ 		document.getElementById("idMaintenance" + i).value = propInfo.expenses[i].maintenance;
+ 		document.getElementById("idMiscellaneous" + i).value = propInfo.expenses[i].miscellaneous;
+ 		document.getElementById("idVacancy" + i).value = propInfo.expenses[i].vacancy;
+ 	}
+
+	for(i = 0; i < 3; i++){
+ 		document.getElementById("idSellAfter" + i).value = propInfo.sale[i].years;
+ 		document.getElementById("idCommission" + i).value = propInfo.sale[i].commission;
+ 	}
+}//RestoreData
 
 // Automatically attempt to restore input fields when the document first loads. The order in which this data is shown ??
 window.onload = function() {	
-    // If the browser supports localStorage and we have some stored data. Do this for all (8) property objects
+		var i;
+
+//		propInfo = readPropertyData();
+//		readPropertyData();
+//		savePropertyDataToLocal();
+//		restoreData(propInfo);
+//		printInputData(propInfo);
+		
+
+/*
+        // If the browser supports localStorage and we have some stored data. Do this for all (9) property objects
+        if (window.localStorage && localStorage.propertyAddress) {
+    	propertyAddress = JSON.parse(localStorage.propertyAddress);
+    	document.getElementById("idPropertyAddressStreet").value = propertyAddress.street;
+    	
+    }
     if (window.localStorage && localStorage.propertyLoan) {  
     	propertyLoan = JSON.parse(localStorage.propertyLoan);
         document.getElementById("idDownPayment").value = propertyLoan.downPayment;
@@ -125,29 +219,29 @@ window.onload = function() {
 	}
     if (window.localStorage && localStorage.propertyPurchase) {  
     	propertyPurchase = JSON.parse(localStorage.propertyPurchase);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
     		document.getElementById("idPurchasePrice" + i).value = propertyPurchase[i].purchasePrice;
     		document.getElementById("idCapitalImprovement" + i).value = propertyPurchase[i].capitalImprovement;
     		document.getElementById("idClosingCost" + i).value = propertyPurchase[i].closingCost;
-   		};
+   		}
     }
 
     if (window.localStorage && localStorage.depreciation) {  
     	depreciation = JSON.parse(localStorage.depreciation);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idLand" + i).value = depreciation[i].land;
     		document.getElementById("idYears" + i).value = depreciation[i].years; 
     		}  	
 	}
     if (window.localStorage && localStorage.rentalIncome) {  
     	rentalIncome = JSON.parse(localStorage.rentalIncome);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idRent" + i).value = rentalIncome[i].rent;
      	}
      }	
     if (window.localStorage && localStorage.globalData) {  
     	globalData = JSON.parse(localStorage.globalData);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idPersonalTaxBracket" + i).value = globalData[i].personalTaxBracket;
     		document.getElementById("idDepreciationTaxRate" + i).value = globalData[i].depreciationTaxRate;
      		document.getElementById("idLongTermCapitalGain" + i).value = globalData[i].longTermCapitalGain;
@@ -155,7 +249,7 @@ window.onload = function() {
      }
    	if (window.localStorage && localStorage.yearlyChanges) {  
     	yearlyChanges = JSON.parse(localStorage.yearlyChanges);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idPropertyTax" + i).value = yearlyChanges[i].propertyTax;
     		document.getElementById("idInflation" + i).value = yearlyChanges[i].inflation;
      		document.getElementById("idPropertyAppreciation" + i).value = yearlyChanges[i].propertyAppreciation;
@@ -165,7 +259,7 @@ window.onload = function() {
  	}
 	if (window.localStorage && localStorage.expenses) {  
     	expenses = JSON.parse(localStorage.expenses);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idHoa" + i).value = expenses[i].hoa;
      		document.getElementById("idInsurance" + i).value = expenses[i].insurance;
      		document.getElementById("idPropertyMrTax" + i).value = expenses[i].propertyMrTax;
@@ -177,10 +271,12 @@ window.onload = function() {
     }
      if (window.localStorage && localStorage.sale) {  
     	sale = JSON.parse(localStorage.sale);
-    	for(var i = 0; i < 3; i++){
+    	for(i = 0; i < 3; i++){
      		document.getElementById("idSellAfter" + i).value = sale[i].years;
      		document.getElementById("idCommission" + i).value = sale[i].commission;
      	}
      }	
+     
+*/
 };//window.onLoad
 

@@ -15,5 +15,7 @@ handle["/file"] = requestHandlers.file;
 handle["/fileCreate"] = requestHandlers.fileCreate;
 handle["/ajaxRequest"] = requestHandlers.ajaxRequest;
 handle["/ajaxResponse"] = requestHandlers.ajaxResponse;
+handle["/propertyFileWrite"] = requestHandlers.propertyFileWrite;
+handle["/propertyFileRead"] = requestHandlers.propertyFileRead;
 
 server.startServer(router.route, handle);

@@ -1,9 +1,10 @@
 /**
  * @author Praveen
+ * Takes the incoming url and routes it to the correct handler
  */
 var fs = require("fs");
 
-function route(handle, pathname, response, postData) {
+function route(handle, pathname, response, postData, urlString) {
 	console.log("About to route a request for " + pathname);
 
 	//For source files, send the files to the client
@@ -23,7 +24,7 @@ function route(handle, pathname, response, postData) {
         });
       }//if source code
 	else if (typeof handle[pathname] === 'function') {
-		handle[pathname](response, postData);
+		handle[pathname](response, postData, urlString);
 	} else {
 		console.log("No request handler found for " + pathname);
 		response.writeHead(404, {"Content-Type": "text/plain"});
