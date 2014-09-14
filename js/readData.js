@@ -1,12 +1,14 @@
 /**
  * @author Praveen
+ * Read all data and create objects to store it
  */
+
 //Call the constructor on all property objects. 
 (function(){
+	//Property address and file name
 	var propertyAddress = new PropertyAddress("", "", "", "");
 	
 	var propertyLoan = new PropertyLoan(25.0, 4.5, 30);
-
 	var propertyPurchase = [scenario];
 	var depreciation = [scenario];
 	var rentalIncome = [scenario];
@@ -43,6 +45,7 @@
 	sale[1]	= new Sale(15, 1.5);
 	sale[2] = new Sale(30, 4);
 	
+	//Main object that contains all other objects
 	propInfo.propertyAddress = propertyAddress;
 	propInfo.propertyLoan = propertyLoan;
 	propInfo.propertyPurchase = propertyPurchase;
@@ -52,10 +55,9 @@
 	propInfo.yearlyChanges = yearlyChanges;
 	propInfo.expenses = expenses;
 	propInfo.sale = sale;
-	
-//	assignSavedObjects(numSavedObjects, savedObjects);
 })();
 
+//Create all objects
 function PropertyAddress(street, city, state, fileName){
 	this.street = street;
 	this.city = city;
@@ -113,7 +115,7 @@ function Sale(years, commission){
 	this.commission = commission;
 }
 
-//Read stored data from a file on the server
+//Read stored data from a file on the server and restore it on the webpage. Use GET http request with filename to read file
 function readPropertyData(fileName){
 	var xmlhttp;
 
@@ -192,91 +194,3 @@ function restoreData(propInfo) {
  		document.getElementById("idCommission" + i).value = propInfo.sale[i].commission;
  	}
 }//RestoreData
-
-// Automatically attempt to restore input fields when the document first loads. The order in which this data is shown ??
-window.onload = function() {	
-		var i;
-
-//		propInfo = readPropertyData();
-//		readPropertyData();
-//		savePropertyDataToLocal();
-//		restoreData(propInfo);
-//		printInputData(propInfo);
-		
-
-/*
-        // If the browser supports localStorage and we have some stored data. Do this for all (9) property objects
-        if (window.localStorage && localStorage.propertyAddress) {
-    	propertyAddress = JSON.parse(localStorage.propertyAddress);
-    	document.getElementById("idPropertyAddressStreet").value = propertyAddress.street;
-    	
-    }
-    if (window.localStorage && localStorage.propertyLoan) {  
-    	propertyLoan = JSON.parse(localStorage.propertyLoan);
-        document.getElementById("idDownPayment").value = propertyLoan.downPayment;
-        document.getElementById("idLoanInterestRate").value = propertyLoan.loanInterestRate;
-        document.getElementById("idLoanDuration").value = propertyLoan.loanDuration;
-	}
-    if (window.localStorage && localStorage.propertyPurchase) {  
-    	propertyPurchase = JSON.parse(localStorage.propertyPurchase);
-    	for(i = 0; i < 3; i++){
-    		document.getElementById("idPurchasePrice" + i).value = propertyPurchase[i].purchasePrice;
-    		document.getElementById("idCapitalImprovement" + i).value = propertyPurchase[i].capitalImprovement;
-    		document.getElementById("idClosingCost" + i).value = propertyPurchase[i].closingCost;
-   		}
-    }
-
-    if (window.localStorage && localStorage.depreciation) {  
-    	depreciation = JSON.parse(localStorage.depreciation);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idLand" + i).value = depreciation[i].land;
-    		document.getElementById("idYears" + i).value = depreciation[i].years; 
-    		}  	
-	}
-    if (window.localStorage && localStorage.rentalIncome) {  
-    	rentalIncome = JSON.parse(localStorage.rentalIncome);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idRent" + i).value = rentalIncome[i].rent;
-     	}
-     }	
-    if (window.localStorage && localStorage.globalData) {  
-    	globalData = JSON.parse(localStorage.globalData);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idPersonalTaxBracket" + i).value = globalData[i].personalTaxBracket;
-    		document.getElementById("idDepreciationTaxRate" + i).value = globalData[i].depreciationTaxRate;
-     		document.getElementById("idLongTermCapitalGain" + i).value = globalData[i].longTermCapitalGain;
-     	}
-     }
-   	if (window.localStorage && localStorage.yearlyChanges) {  
-    	yearlyChanges = JSON.parse(localStorage.yearlyChanges);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idPropertyTax" + i).value = yearlyChanges[i].propertyTax;
-    		document.getElementById("idInflation" + i).value = yearlyChanges[i].inflation;
-     		document.getElementById("idPropertyAppreciation" + i).value = yearlyChanges[i].propertyAppreciation;
-    		document.getElementById("idRentAppreciation" + i).value = yearlyChanges[i].rentAppreciation;
-     		document.getElementById("idAlternateInvestmentReturn" + i).value = yearlyChanges[i].alternateInvestmentReturn;
-     	}
- 	}
-	if (window.localStorage && localStorage.expenses) {  
-    	expenses = JSON.parse(localStorage.expenses);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idHoa" + i).value = expenses[i].hoa;
-     		document.getElementById("idInsurance" + i).value = expenses[i].insurance;
-     		document.getElementById("idPropertyMrTax" + i).value = expenses[i].propertyMrTax;
-     		document.getElementById("idManagementFee" + i).value = expenses[i].managementFee;
-     		document.getElementById("idMaintenance" + i).value = expenses[i].maintenance;
-     		document.getElementById("idMiscellaneous" + i).value = expenses[i].miscellaneous;
-     		document.getElementById("idVacancy" + i).value = expenses[i].vacancy;
-     	}
-    }
-     if (window.localStorage && localStorage.sale) {  
-    	sale = JSON.parse(localStorage.sale);
-    	for(i = 0; i < 3; i++){
-     		document.getElementById("idSellAfter" + i).value = sale[i].years;
-     		document.getElementById("idCommission" + i).value = sale[i].commission;
-     	}
-     }	
-     
-*/
-};//window.onLoad
-

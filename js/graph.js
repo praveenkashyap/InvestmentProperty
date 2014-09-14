@@ -1,6 +1,7 @@
 /**
  * @author Praveen
  */
+//General function to draw a graph. The input data is stored in amount array which has monthly data. monthToX, anountToY convert data to pixels. 
 function drawGraph(amount, graph, monthToX, amountToY, drawAxis, lineColor, lineWidth, font, fontColor, text, textX, textY, str){
  
    // If this browser does not support graphics in a <canvas> element, then just return now.
@@ -52,11 +53,13 @@ function drawGraph(amount, graph, monthToX, amountToY, drawAxis, lineColor, line
 	return str;
 } //drawGraph
 
-//Draw the income and expense graph
+//Draw the income and expense graphs. The data is stored in multiple arrays.
 function drawIncome(pV){
 	var numMon = pV.grossIncome.length;
 	var lowHigh = [pV.grossIncome[0], pV.grossIncome[numMon - 1], pV.operatingExpense[0], pV.operatingExpense[numMon - 1], pV.netIncomeAfterTD[0], pV.netIncomeAfterTD[numMon - 1], 
 		pV.taxes[0], pV.taxes[numMon - 1]];
+	
+	//Calculate the low and high values to create bounding box 
 	lowHigh.sort(function(a, b) {return (a - b);});
 	var incomeGraph = document.getElementById("idIncomeGraph"); 	// Get the <canvas> tag
 	incomeGraph.width = incomeGraph.width;  						// Magic to clear and reset the canvas element
@@ -67,6 +70,7 @@ function drawIncome(pV){
 
 	var str = "width:" + incomeGraph.width + " height: " + incomeGraph.height + " low: " + lowHigh[0] + " high: " + lowHigh[lowHigh.length - 1]  + " mon: " + numMon + "<br>";
 
+	//Write the graph data to the data tab
 	str = drawGraph(pV.grossIncome, incomeGraph, monthToX, amountToY, true,  "#f88f00", 2, "bold 16px sans-serif", "#f88f00", "Gross Income", 20, 20, str);
 	str = drawGraph(pV.operatingExpense, incomeGraph, monthToX, amountToY, false, "#00ff88", 2, "bold 16px sans-serif", "#00ff88", "Operating Expense", 20, 36, str);
 	str = drawGraph(pV.netIncomeAfterTD, incomeGraph, monthToX, amountToY, false, "#f8008f", 2, "bold 16px sans-serif", "#f8008f", "Net Income After Taxes and Depreciation", 20, 52, str);
@@ -76,7 +80,7 @@ function drawIncome(pV){
 	document.getElementById("idTab4Test").innerHTML = str  ;
 } //drawIncome
 
-//Draw the appreciation related information graph
+//Draw the appreciation related information graph. The data is stored in multiple arrays.
 function drawAppreciation(pV){
 	var numMon = pV.propertyAppreciation.length;
 	var lowHigh = [pV.propertyAppreciation[0], pV.propertyAppreciation[numMon - 1], pV.alternateInvestment[0], pV.alternateInvestment[numMon - 1]];

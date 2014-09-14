@@ -30,7 +30,8 @@ function savePropertyDataToLocal(propInfo){
     }
 }//saveData
 
-//Create filename where the property data is stored on the server
+//Create filename where the property data is stored on the server. Remove any white spaces from all propertyAddress fields. 
+//Concatenate the street, city and state address.
 function createFileName(propInfo){
 	var propAddress = {street:propInfo.propertyAddress.street, city:propInfo.propertyAddress.city, state:propInfo.propertyAddress.state};
 	var fileName = "";
@@ -66,6 +67,7 @@ function savePropertyDataToFile(propInfo){
 
 }//saveDataToFile
 
+//Print data on the form on the print tab
 function printInputData(propInfo){
 	var str = '';
 	

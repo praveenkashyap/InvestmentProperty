@@ -200,7 +200,7 @@
 				<input type="button" onclick="savePropertyDataToFile(propInfo); savePropertyDataToLocal(propInfo);" value="Save">
 				<input type="button" onclick="printData(propInfo);" value="Calculate">
 				<input type="button" onclick="localStorage.clear();" value="Clear Storage">
-				<input type="button" onclick="readPropertyData();" value="Load File">
+				<input type="button" onclick="readPropertyData(propInfo.propertyAddress.fileName);" value="Load File">
 				<input type="button" onclick="printInputData(propInfo);" value="Print input data"><br>
 			</form>
 			<div id = "AddressDiv">

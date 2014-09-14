@@ -8,8 +8,10 @@ function grossIncome(rentalIncome, yearlyChanges, expenses, month, selScen){
 	var monthlyLosses = monthlyRent * expenses[selScen].vacancy/100;
 
 	return monthlyRent - monthlyLosses;
-}
+}//grossIncome
 
+//Operating expense over the life of the property loan. This is adjusted for inflation. 
+//Include hoa, management fee, maintenance, miscellaneous expense and property tax including Mello Roos.
 function operatingExpense(propertyLoan, propertyPurchase, rentalIncome, yearlyChanges, expenses, month, selScen)
 {
 	var monthlyInflation = Math.pow(1 + ((yearlyChanges[selScen].inflation/100)/12), month);
@@ -21,8 +23,9 @@ function operatingExpense(propertyLoan, propertyPurchase, rentalIncome, yearlyCh
 	var propertyMrTax = expenses[selScen].propertyMrTax/100/12 * propertyPurchase[selScen].purchasePrice * Math.pow(1 + ((yearlyChanges[selScen].propertyTax/100)/12), month);
 
 	return hoa + insurance + managementFee + maintenance + miscellaneous + propertyMrTax;
-}
-//Calculate the loan payment, amount left and amount going towards principal every month.
+}//operatingExpense
+
+//Calculate the loan payment, amount left and amount going towards principal every month and the ending balance every month.
 function loanCalculator(propertyLoan, propertyPurchase, selScen){	
 	var loanPayment = Object.create({monthlyPayment:0, loanAmount:0, interestPayment:[propertyLoan.loanDuration * 12], endingBalance:[propertyLoan.loanDuration * 12]});
     
@@ -36,22 +39,16 @@ function loanCalculator(propertyLoan, propertyPurchase, selScen){
         equity += (loanPayment.monthlyPayment - loanPayment.interestPayment[p]);  // The rest goes to equity
 		loanPayment.endingBalance[p] = loanPayment.loanAmount - equity;
     }
-/*	
-	var str = "loan amount: " + propertyPurchase[selScen].purchasePrice;
-	str = str + " monthly paymnet: " + loanPayment.monthlyPayment + " loan amount: " + loanPayment.loanAmount + "<br>";
-	for(var i = 0; i < propertyLoan.loanDuration * 12; i++)
-		str = str + "month: " + i + " interest payment: " + loanPayment.interestPayment[i] + " ending balance: " + loanPayment.endingBalance[i] + "<br>";
-	document.getElementById("idPrintData").innerHTML = str  ;	
-	*/
 	return loanPayment;		
-}
+}//loanCalculator
 
-//Calculate monthly depreciation
+//Calculate monthly depreciation of the property
 function calculateDepreciation(propertyPurchase, depreciation, selScen){
 	return (propertyPurchase[selScen].purchasePrice * ((1 - depreciation[selScen].land/100)/depreciation[selScen].years/12));
-}
+}//calcualteDeprecaition
 
-//Calculate property Appreciation. Does not include cumulative mortgage principal payment (B36), cumulative cash flow  (B28) and cumulative tax for recaptured depreciation (B42)
+//Calculate property Appreciation till the time it is sold. Include the sales charge and tax implications.
+//Does not include cumulative mortgage principal payment (B36), cumulative cash flow  (B28) and cumulative tax for recaptured depreciation (B42)
 function propertyAppreciation(propertyLoan, propertyPurchase, globalData, yearlyChanges, sale, selScen, month, loanPayment, monDep){
 	var curPropValue = propertyPurchase[selScen].purchasePrice * Math.pow(1 + ((yearlyChanges[selScen].propertyAppreciation/100)/12), month); //B40
 	var salesCharge = curPropValue * sale[selScen].commission/100; //B41
@@ -60,11 +57,11 @@ function propertyAppreciation(propertyLoan, propertyPurchase, globalData, yearly
 	var totalInitialPayment = propertyPurchase[selScen].closingCost/100 * propertyPurchase[selScen].purchasePrice + propertyPurchase[selScen].capitalImprovement + 
 		propertyPurchase[selScen].purchasePrice * propertyLoan.downPayment/100; //PB35
 
-//	return taxGain;
 	return (((curPropValue - salesCharge - loanPayment.endingBalance[month]) - taxGain) - totalInitialPayment);
-}
+}//propertyAppreciation
 
-//Calculate how an alternate investment of the initial capital would perform. Does not include the monthly payments or returns from the property
+//Calculate how an alternate investment of the initial capital would perform. 
+//Does not include the monthly payments or returns from the property, so to have a more accurate model, this needs to be included as well
 function alternateInvestment(propertyLoan, propertyPurchase, globalData, yearlyChanges, selScen, month){
 	var altInvestment = ((propertyLoan.downPayment/100 + propertyPurchase[selScen].closingCost/100) * propertyPurchase[selScen].purchasePrice + 
 			 propertyPurchase[selScen].capitalImprovement);
@@ -72,9 +69,10 @@ function alternateInvestment(propertyLoan, propertyPurchase, globalData, yearlyC
 	var taxesPaid = (altInvestmentApp - altInvestment) * globalData[selScen].longTermCapitalGain/100; //B49
 	
 	return (altInvestmentApp - taxesPaid - altInvestment); 
-}
+}//alternateInvestment
 
-//Analyse the value of the property, with operating income, net income, cash flow analysis and alternate investment analysis
+//Analyze the value of the property, with operating income, net income, cash flow analysis and alternate investment analysis. This is the main function for property analysis. 
+//The information is kept in the propertyValue object that has arrays to store monthly data.
 function propertyAnalysis(propertyLoan, propertyPurchase, depreciation, rentalIncome, globalData, yearlyChanges, expenses, sale, selScen){
 
 	var i = sale[selScen].years * 12;	
@@ -102,9 +100,8 @@ function propertyAnalysis(propertyLoan, propertyPurchase, depreciation, rentalIn
 
 		propertyValue.propertyAppreciation[mon] = propertyAppreciation(propertyLoan, propertyPurchase, globalData, yearlyChanges, sale, selScen, mon, loanPayment, monDep) +
 				cumulativeCashFlow - cumulativePrincipal - cumulativeTaxRecapDep; //B45				
-		propertyValue.alternateInvestment[mon] = alternateInvestment(propertyLoan, propertyPurchase, globalData, yearlyChanges, selScen, mon); //B50
-		
+		propertyValue.alternateInvestment[mon] = alternateInvestment(propertyLoan, propertyPurchase, globalData, yearlyChanges, selScen, mon); //B50		
 	}
 	
 	return propertyValue;
-}
+}//propertyAnalysis
