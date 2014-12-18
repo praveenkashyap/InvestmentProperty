@@ -111,7 +111,7 @@ var query = querystring.parse(postData);
 	else
 		console.log("Error: unsupported OS");
 
-	fs.writeFile(linuxPropertyDatabase + query.fileName, data, function(err){
+	fs.writeFile(propertyDatabase + query.fileName, data, function(err){
 		if (err) throw err;
 		console.log('successfully saved file: ' + query.fileName);
 		response.writeHead(200, {"Content-Type": "text/plain"});
